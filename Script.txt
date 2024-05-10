@@ -1,0 +1,12 @@
+Customer:
+	Endless customers queue
+	Customer requests goods
+	If goods matches
+		Customer pay, take goods, leaves
+	Else
+		Customer leaves
+	Next customer comes
+
+Player:
+	Take goods
+	Gives goods to customer
