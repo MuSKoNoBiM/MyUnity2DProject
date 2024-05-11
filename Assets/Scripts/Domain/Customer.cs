@@ -4,7 +4,7 @@ namespace Domain
 {
     public class Customer : IInteractable
     {
-        public event Action TakedGoods;
+        public event Action<IInteractable> TakedGoods;
 
         public void Interact(IInteracter interacter)
         {
@@ -15,8 +15,8 @@ namespace Domain
 
             if (interacter.Hands == null) return;
 
+            TakedGoods?.Invoke(interacter.Hands);
             interacter.Hands = null;
-            TakedGoods?.Invoke();
         }
     }
 }

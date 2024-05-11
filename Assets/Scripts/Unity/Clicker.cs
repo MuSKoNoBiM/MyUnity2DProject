@@ -41,7 +41,7 @@ namespace Unity
 
         private void OnTake(IInteractable interactable)
         {
-            Hands.Take();
+            Hands.Take(interactable.GetType().ToString());
         }
 
         private void SetToEmpty()

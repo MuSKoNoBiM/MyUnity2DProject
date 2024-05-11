@@ -1,5 +1,6 @@
 using Domain;
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Unity
@@ -10,7 +11,7 @@ namespace Unity
 
         private void Awake()
         {
-            _goods = new Domain.Goods();
+            _goods = new Domain.Goods(this);
         }
 
         public void Interact(IInteracter interacter)
@@ -20,7 +21,7 @@ namespace Unity
                 throw new ArgumentNullException(nameof(interacter));
             }
 
-            Debug.Log("Interact with Goods");
+            Debug.Log($"Interact with the {transform.name}");
             _goods.Interact(interacter);
         }
     }
