@@ -17,13 +17,11 @@ namespace Unity
 
             void OptimizeCollection()
             {
-                Goods goods;
-
                 for (int i = 0; i < Items.Count; i++)
                 {
-                    goods = Items[i].GetComponent<Goods>();
-
-                    DictionayItems[goods.GetType().ToString()] = i;
+                    DictionayItems[Items[i]
+                        .GetComponent<Goods>()
+                        .GetType().ToString()] = i;
                 }
             }
         }
