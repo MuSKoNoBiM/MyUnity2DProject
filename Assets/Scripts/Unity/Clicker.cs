@@ -1,4 +1,5 @@
 using Domain;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -31,16 +32,22 @@ namespace Unity
         private void Awake()
         {
             _controls = new Controls();
-            _clicker = new Domain.Clicker(Physics.MainPhysics);
+            _clicker = new Domain.Clicker();
         }
 
         private void OnClick(InputAction.CallbackContext context)
         {
-            _clicker.OnClick();
+            if (OwnPhysics.TryRaycast(out IInteractable interactable))
+                _clicker.OnClick(interactable);
         }
 
         private void OnTake(IInteractable interactable)
         {
+            if (interactable is null)
+            {
+                throw new ArgumentNullException(nameof(interactable));
+            }
+
             Hands.Take(interactable.GetType().ToString());
         }
 
