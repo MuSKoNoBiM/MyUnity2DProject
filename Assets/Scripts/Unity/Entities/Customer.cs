@@ -6,11 +6,15 @@ namespace Unity
 {
     public class Customer : MonoBehaviour, IInteractable
     {
+        [SerializeField] private int _moneyToPay = 1;
+
         private Domain.Customer _customer;
 
         private void Awake()
         {
             _customer = new Domain.Customer();
+            _customer.MoneyToPay = _moneyToPay;
+
             _customer.TakedGoods += (Interactable) =>
             {
                 string name;

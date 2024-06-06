@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace Unity
 {
-    public class Clicker : MonoBehaviour
+    public class Clicker : MonoBehaviour, IPauseable
     {
         public Hands Hands;
         private Controls _controls;
@@ -13,11 +13,27 @@ namespace Unity
 
         private void OnEnable()
         {
-            _controls.Interaction.Interact.performed += OnClick;
-            _controls.Enable();
+            AddGameEvents();
+            ConfigureControls();
+            AddClickerEvent();
 
-            _clicker.Taked += OnTake;
-            _clicker.Given += SetToEmpty;
+            void AddGameEvents()
+            {
+                Game.Started += Start_Own;
+                Game.Paused += Pause;
+            }
+
+            void ConfigureControls()
+            {
+                _controls.Interaction.Interact.performed += OnClick;
+                _controls.Enable();
+            }
+
+            void AddClickerEvent()
+            {
+                _clicker.Taked += OnTake;
+                _clicker.Given += SetToEmpty;
+            }
         }
 
         private void OnDisable()
@@ -31,7 +47,7 @@ namespace Unity
 
         private void Awake()
         {
-            _controls = new Controls();
+            _controls = Program.Controls;
             _clicker = new Domain.Clicker();
         }
 
@@ -54,6 +70,16 @@ namespace Unity
         private void SetToEmpty()
         {
             Hands.SetToEmpty();
+        }
+
+        public void Start_Own()
+        {
+            _controls.Interaction.Interact.performed += OnClick;
+        }
+
+        public void Pause()
+        {
+            _controls.Interaction.Interact.performed -= OnClick;
         }
     }
 }

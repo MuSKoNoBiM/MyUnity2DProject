@@ -4,7 +4,24 @@ namespace Domain
 {
     public class Customer : IInteractable
     {
+        private int _moneyToPay = 1;
+
         public event Action<IInteractable> TakedGoods;
+
+        public int MoneyToPay
+        {
+            get
+            {
+                return _moneyToPay;
+            }
+
+            set
+            {
+                if (value < 0) throw new ArgumentOutOfRangeException();
+
+                _moneyToPay = value;
+            }
+        }
 
         public void Interact(IInteracter interacter)
         {
@@ -15,6 +32,7 @@ namespace Domain
 
             if (interacter.Hands == null) return;
 
+            interacter.ReceivePay(_moneyToPay);
             TakedGoods?.Invoke(interacter.Hands);
             interacter.Hands = null;
         }
